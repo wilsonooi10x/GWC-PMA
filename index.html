@@ -428,7 +428,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
       <div class="metric-card green"><div class="metric-label"><i class="ti ti-chart-bar"></i>Revenue YTD</div><div class="metric-val green">RM 10.2M</div><div class="metric-sub">60% of RM 17.0M target</div></div>
       <div class="metric-card green"><div class="metric-label"><i class="ti ti-book"></i>Order book</div><div class="metric-val green">RM 41.2M</div><div class="metric-sub">5 active projects</div></div>
       <div class="metric-card gold"><div class="metric-label"><i class="ti ti-git-pull-request"></i>Tender pipeline</div><div class="metric-val gold">RM 35.5M</div><div class="metric-sub">6 active tenders · RM 19.6M weighted</div></div>
-      <div class="metric-card amber"><div class="metric-label"><i class="ti ti-clock-dollar"></i>Billed to date</div><div class="metric-val amber">RM 8.6M</div><div class="metric-sub">Avg 18% gross margin</div></div>
+      <div class="metric-card amber"><div class="metric-label"><i class="ti ti-clock-dollar"></i>Billed to date</div><div class="metric-val amber">RM 8.6M</div><div class="metric-sub">YTD billed across 5 projects</div></div>
       <div class="metric-card amber"><div class="metric-label"><i class="ti ti-alert-triangle"></i>Overdue tasks</div><div class="metric-val amber">12</div><div class="metric-sub">Across 3 projects</div></div>
     </div>
 
@@ -471,7 +471,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
           <div class="proj-card-kv"><span>Margin MTM</span><span style="color:var(--green);font-weight:600">18.0%</span></div>
           <div class="proj-card-divider"></div>
           <div class="proj-card-kv" style="margin-bottom:2px"><span>Billed</span><span>93%</span></div>
-          <div class="prog-bar"><div class="prog-fill" style="width:93%;background:var(--green)"></div></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:85%;background:var(--green)"></div></div>
           <div class="proj-card-kv" style="margin-top:3px"><span>Collected</span><span style="color:var(--green)">RM 3.8M</span></div>
         </div>
       </div>
@@ -557,11 +557,11 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
       <div class="card">
         <div class="card-header"><div class="card-title">Revenue vs target</div></div>
         <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
-          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>YTD actual</span><span style="color:var(--green);font-weight:600">RM 8.7M</span></div><div class="prog-bar"><div class="prog-fill" style="width:72%;background:var(--mg)"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>YTD actual</span><span style="color:var(--green);font-weight:600">RM 8.0M</span></div><div class="prog-bar"><div class="prog-fill" style="width:72%;background:var(--mg)"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>Full-year forecast</span><span style="color:var(--amber);font-weight:600">RM 11.6M</span></div><div class="prog-bar"><div class="prog-fill" style="width:96%;background:var(--gold)"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>Target</span><span style="font-weight:600">RM 12.1M</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--border)"></div></div></div>
           <div style="height:1px;background:var(--border2)"></div>
-          <div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--text3)">Win rate YTD</span><span style="font-weight:600;color:var(--green)">44% (7/16)</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--text3)">Win rate YTD</span><span style="font-weight:600;color:var(--green)">38% (5/13)</span></div>
           <div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--text3)">VO pending approval</span><span style="font-weight:600;color:var(--amber)">RM 0.84M</span></div>
         </div>
       </div>
@@ -616,13 +616,13 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
   <!-- ORDER BOOK + REVENUE -->
   <div id="screen-orderbook" class="screen">
     <div class="page-header">
-      <div><div class="page-title">Order book &amp; revenue realisation</div><div class="page-sub">2026 target: <strong>RM 12.1M</strong> · Old OB + New OB</div></div>
+      <div><div class="page-title">Order book &amp; revenue realisation</div><div class="page-sub">2026 target: <strong>RM 11.6M</strong> · Old OB + New OB</div></div>
     </div>
     <div class="metric-grid">
       <div class="metric-card green"><div class="metric-label"><i class="ti ti-book"></i>Total order book</div><div class="metric-val green" id="ob-total-val">RM 41.2M</div><div class="metric-sub">5 active projects</div></div>
-      <div class="metric-card"><div class="metric-label"><i class="ti ti-receipt"></i>Billed to date</div><div class="metric-val">RM 14.4M</div><div class="metric-sub">35% of total OB</div></div>
-      <div class="metric-card amber"><div class="metric-label"><i class="ti ti-clock"></i>Outstanding</div><div class="metric-val amber">RM 26.8M</div><div class="metric-sub">Remaining to bill</div></div>
-      <div class="metric-card"><div class="metric-label"><i class="ti ti-lock"></i>Retention held</div><div class="metric-val">RM 1.84M</div><div class="metric-sub">Avg 10% retention</div></div>
+      <div class="metric-card"><div class="metric-label"><i class="ti ti-receipt"></i>Billed to date</div><div class="metric-val">RM 9.0M</div><div class="metric-sub">22% of total OB</div></div>
+      <div class="metric-card amber"><div class="metric-label"><i class="ti ti-clock"></i>Outstanding</div><div class="metric-val amber">RM 32.2M</div><div class="metric-sub">Remaining to bill</div></div>
+      <div class="metric-card"><div class="metric-label"><i class="ti ti-lock"></i>Retention held</div><div class="metric-val">RM 0.90M</div><div class="metric-sub">Avg 10% of billed</div></div>
     </div>
     <div class="card">
       <div class="card-header">
@@ -669,8 +669,8 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
         <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
           <div style="font-size:10px;color:var(--text3);font-style:italic;margin-bottom:2px">HOD: enter billed % for each project. Updates automatically when Supabase is connected.</div>
           <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>IRBM Studies</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="50" id="bill-1" oninput="updateBilling('bill-1','bfill-1')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-1" style="width:50%;background:#e67e22"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>EIA Study - CHS</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="93" id="bill-2" oninput="updateBilling('bill-2','bfill-2')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-2" style="width:93%;background:#27ae60"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>Dam Safety Review / DSI</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="86" id="bill-3" oninput="updateBilling('bill-3','bfill-3')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-3" style="width:86%;background:#27ae60"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>EIA Study - CHS</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="85" id="bill-2" oninput="updateBilling('bill-2','bfill-2')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-2" style="width:85%;background:#27ae60"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>Dam Safety Review / DSI</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="25" id="bill-3" oninput="updateBilling('bill-3','bfill-3')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-3" style="width:25%;background:#e67e22"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>Flood Mitigation Masterplan</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="0" id="bill-4" oninput="updateBilling('bill-4','bfill-4')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-4" style="width:1%;background:#d0d8d0"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:3px"><span>Water Resources Study</span><div style="display:flex;align-items:center;gap:4px"><input type="number" min="0" max="100" value="0" id="bill-5" oninput="updateBilling('bill-5','bfill-5')" style="width:52px;padding:2px 5px;font-size:11px;border:1px solid var(--border);border-radius:4px;text-align:right"><span style="font-size:11px">%</span></div></div><div class="prog-bar"><div class="prog-fill" id="bfill-5" style="width:1%;background:#d0d8d0"></div></div></div>
         </div>
@@ -678,10 +678,10 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
       <div class="card">
         <div class="card-header"><div class="card-title">2026 revenue vs target</div></div>
         <div class="card-body" style="display:flex;flex-direction:column;gap:9px">
-          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>YTD actual (Jan–May)</span><span style="color:var(--green);font-weight:600">RM 8.7M</span></div><div class="prog-bar"><div class="prog-fill" style="width:72%;background:var(--mg)"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>YTD actual (Jan–May)</span><span style="color:var(--green);font-weight:600">RM 8.0M</span></div><div class="prog-bar"><div class="prog-fill" style="width:72%;background:var(--mg)"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>Full-year forecast</span><span style="color:var(--amber);font-weight:600">RM 11.6M</span></div><div class="prog-bar"><div class="prog-fill" style="width:96%;background:var(--gold)"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px"><span>Annual target</span><span style="font-weight:600">RM 12.1M</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--border)"></div></div></div>
-          <div class="notice amber"><i class="ti ti-alert-circle"></i>Gap to target: <strong>RM 0.5M</strong> — needs new awards or VO approvals</div>
+          <div class="notice amber"><i class="ti ti-alert-circle"></i>Gap to target: <strong>RM 0.0M</strong> — on track with schedule or VO approvals</div>
         </div>
       </div>
     </div>
@@ -728,7 +728,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
 
     <!-- KPI band -->
     <div class="metric-grid" style="grid-template-columns:repeat(6,minmax(130px,1fr))">
-      <div class="metric-card green"><div class="metric-label">Contract value</div><div class="metric-val green" id="plm-contract" data-base="6.8">RM 6.8M</div><div class="metric-sub" id="plm-stage">During · Step 18/35</div></div>
+      <div class="metric-card green"><div class="metric-label">Contract value</div><div class="metric-val green" id="plm-contract">RM 6.8M</div><div class="metric-sub" id="plm-stage">During · Step 18/35</div></div>
       <div class="metric-card"><div class="metric-label">Budget cost</div><div class="metric-val" id="plm-budget">RM 5.85M</div><div class="metric-sub" id="plm-margin-budget">Margin budget: 14%</div></div>
       <div class="metric-card amber"><div class="metric-label">Actual cost to date</div><div class="metric-val amber" id="plm-actual">RM 3.20M</div><div class="metric-sub" id="plm-cost-pct">55% of budget</div></div>
       <div class="metric-card green"><div class="metric-label">Margin MTM</div><div class="metric-val green" id="plm-margin-mtm">14.7%</div><div class="metric-sub" id="plm-margin-sub">RM 1.0M gross profit</div></div>
@@ -772,7 +772,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
                 <td style="padding:10px 14px;border-bottom:1px solid var(--border2)">
                   <div style="font-weight:600;font-size:12px">Material</div>
                 </td>
-                <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);color:var(--text2)" id="pl-mat-budget">2.63M</td>
+                <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);color:var(--text2)" id="pl-mat-budget">2.57M</td>
                 <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border2)">
                   <input type="number" step="0.01" min="0" value="1.44" id="pl-mat-actual" oninput="updatePLRow('mat')" style="width:72px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;text-align:right;font-weight:600">
                   <span style="font-size:10px;color:var(--text3)">M</span>
@@ -793,7 +793,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
                   <div style="font-weight:600;font-size:12px">Labour</div>
                   <div style="font-size:10px;color:var(--green)">Timesheet Jun: RM 12,000</div>
                 </td>
-                <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);color:var(--text2)" id="pl-lab-budget">1.76M</td>
+                <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);color:var(--text2)" id="pl-lab-budget">1.40M</td>
                 <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border2)">
                   <input type="number" step="0.01" min="0" value="0.96" id="pl-lab-actual" oninput="updatePLRow('lab')" style="width:72px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;text-align:right;font-weight:600">
                   <span style="font-size:10px;color:var(--text3)">M</span>
@@ -813,9 +813,9 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
                 <td style="padding:10px 14px;border-bottom:1px solid var(--border2)">
                   <div style="font-weight:600;font-size:12px">Subcontractor</div>
                 </td>
-                <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);color:var(--text2)" id="pl-sub-budget">1.17M</td>
+                <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);color:var(--text2)" id="pl-sub-budget">1.05M</td>
                 <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--border2)">
-                  <input type="number" step="0.01" min="0" value="0.64" id="pl-sub-actual" oninput="updatePLRow('sub')" style="width:72px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;text-align:right;font-weight:600">
+                  <input type="number" step="0.01" min="0" value="0.54" id="pl-sub-actual" oninput="updatePLRow('sub')" style="width:72px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;text-align:right;font-weight:600">
                   <span style="font-size:10px;color:var(--text3)">M</span>
                 </td>
                 <td style="padding:10px 10px;text-align:right;border-bottom:1px solid var(--border2);font-weight:600" id="pl-sub-var">+RM 0.53M</td>
@@ -833,9 +833,9 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
                 <td style="padding:10px 14px">
                   <div style="font-weight:600;font-size:12px">Preliminaries</div>
                 </td>
-                <td style="padding:10px 10px;text-align:right;color:var(--text2)" id="pl-pre-budget">0.29M</td>
+                <td style="padding:10px 10px;text-align:right;color:var(--text2)" id="pl-pre-budget">0.83M</td>
                 <td style="padding:6px 10px;text-align:right">
-                  <input type="number" step="0.01" min="0" value="0.16" id="pl-pre-actual" oninput="updatePLRow('pre')" style="width:72px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;text-align:right;font-weight:600">
+                  <input type="number" step="0.01" min="0" value="0.26" id="pl-pre-actual" oninput="updatePLRow('pre')" style="width:72px;padding:5px 6px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;text-align:right;font-weight:600">
                   <span style="font-size:10px;color:var(--text3)">M</span>
                 </td>
                 <td style="padding:10px 10px;text-align:right;font-weight:600" id="pl-pre-var">+RM 0.13M</td>
@@ -3608,10 +3608,10 @@ function renderTimesheet() {
 var APPROVED_VO_TOTALS = { irbm:0, eia:0, dam:0, flood:0 };
 
 var PL_PROJECTS = {
-  irbm:  { contract:13.50, budget:10.80, actual:5.00, margin:'18.5%', vo:'—', billed:62, collected:55, stage:'During · Step 18/35', alert:'Progress Claim #5 due — Step 25 in progress' },
-  eia:   { contract:3.51,  budget:2.81,  actual:2.70, margin:'20.0%', vo:'—', billed:85, collected:80, stage:'Exit · Step 27/35',   alert:'Final Report pending sign-off — Step 30 due this week' },
-  dam:   { contract:3.49,  budget:2.79,  actual:0.75, margin:'19.0%', vo:'—', billed:25, collected:20, stage:'During · Step 20/35', alert:'Progress Claim #2 — prepare by end of month' },
-  flood: { contract:1.70,  budget:1.36,  actual:0.02, margin:'16.0%', vo:'—', billed:0,  collected:0,  stage:'Entry · Step 9/35',   alert:'⚠ HOD approval pending at Step 9 (Risk Review)' }
+  irbm:  { contract:6.80,  budget:5.85,  actual:3.20, margin:'14.7%', vo:'—', billed:50, collected:45, stage:'During · Step 18/35', alert:'Progress Claim #5 due — Step 25 in progress' },
+  eia:   { contract:4.10,  budget:3.36,  actual:3.20, margin:'20.0%', vo:'—', billed:85, collected:80, stage:'Exit · Step 27/35',   alert:'Final Report pending sign-off — Step 30 due this week' },
+  dam:   { contract:8.40,  budget:6.80,  actual:0.75, margin:'19.0%', vo:'—', billed:25, collected:20, stage:'During · Step 20/35', alert:'Progress Claim #2 — prepare by end of month' },
+  flood: { contract:18.50, budget:15.54, actual:0.02, margin:'16.0%', vo:'—', billed:0,  collected:0,  stage:'Entry · Step 9/35',   alert:'⚠ HOD approval pending at Step 9 (Risk Review)' }
 };
 
 
@@ -3778,10 +3778,10 @@ function updateBilling(inpId, fillId) {
 // ── P&L: Cost breakdown sliders ────────────────────────────────────────────────
 // Per-project cost data: { contract, budgetTotal, budgets:[mat,lab,sub,pre], actuals:[mat,lab,sub,pre] }
 var PL_BUDGETS = {
-  irbm:  { contract:13.50, budgetTotal:10.80, budgets:[4.32,3.24,2.16,1.08], actuals:[2.00,1.50,1.00,0.50] },
-  eia:   { contract:3.51,  budgetTotal:2.81,  budgets:[1.12,0.84,0.56,0.28], actuals:[1.08,0.82,0.55,0.25] },
-  dam:   { contract:3.49,  budgetTotal:2.79,  budgets:[1.12,0.84,0.55,0.28], actuals:[0.30,0.25,0.15,0.05] },
-  flood: { contract:1.70,  budgetTotal:1.36,  budgets:[0.54,0.41,0.27,0.14], actuals:[0,0,0,0] }
+  irbm:  { contract:6.80,  budgetTotal:5.85, budgets:[2.57,1.40,1.05,0.83], actuals:[1.44,0.96,0.54,0.26] },
+  eia:   { contract:4.10,  budgetTotal:3.36, budgets:[1.48,0.81,0.60,0.47], actuals:[1.08,0.82,0.55,0.25] },
+  dam:   { contract:8.40,  budgetTotal:6.80, budgets:[2.99,1.63,1.22,0.96], actuals:[0.30,0.25,0.15,0.05] },
+  flood: { contract:18.50, budgetTotal:15.54, budgets:[6.84,3.73,2.80,2.17], actuals:[0,0,0,0] }
 };
 
 function updatePLRow(cat) {
