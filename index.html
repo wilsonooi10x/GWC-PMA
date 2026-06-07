@@ -3249,123 +3249,214 @@ function saveEditTender() {
   // Recalculate margin
   var valNum  = parseFloat(value.replace(/[^0-9.]/g,'')) || 0;
   var cogsNum = parseFloat(cogs.replace(/[^0-9.]/g,'')) || 0;
-  if (valNum > 0 && tds[7]) {
-    var margin = Math.round((valNum - cogsNum) / valNum * 100);
-    tds[7].textContent = margin + '%';
-  }
-  // Update weighted value
   var probNum = parseFloat(prob) || 0;
-  if (tds[9]) tds[9].textContent = 'RM ' + (valNum * probNum / 100).toFixed(1) + 'M';
+  if (valNum > 0 && tds[7]) {
+    tds[7].textContent = Math.round((valNum - cogsNum) / valNum * 100) + '%';
+  }
+  // Update weighted value — 100% if awarded
+  var displayProb = newStage === 'Awarded' ? 100 : probNum;
+  if (tds[8]) tds[8].textContent = displayProb + '%';
+  if (tds[9]) tds[9].textContent = 'RM ' + (valNum * displayProb / 100).toFixed(1) + 'M';
 
   // Update stage pill
   var stageEl = _editTenderRow.querySelector('.pill');
   if (stageEl) {
-    var pm = {Awarded:'green',Submitted:'blue',Shortlisted:'purple',Negotiation:'gold','Pre-Qual':'gray',Costing:'amber','No Bid':'red',Lost:'red'};
+    var pm = {Awarded:'green',Submitted:'blue',Shortlisted:'purple',Negotiation:'gold','Pre-Qual':'gray',Identified:'gray',Costing:'amber','No Bid':'red','Not awarded':'red',Lost:'red'};
     stageEl.className = 'pill ' + (pm[newStage]||'gray');
     stageEl.textContent = newStage;
   }
   _editTenderRow.setAttribute('data-stage', newStage);
 
-  // ── If newly Awarded: add to Order Book ──────────────────────────────────────
+  // ── If newly Awarded: full cross-screen sync ─────────────────────────────────
   if (newStage === 'Awarded' && prevStage !== 'Awarded') {
-    addToOrderBook(name, client, valNum);
-    updateTenderingStats();
-  }
-  // ── If un-awarded: remove from OB (optional alert) ──────────────────────────
-  if (prevStage === 'Awarded' && newStage !== 'Awarded') {
-    showToast(name + ' removed from Awarded — update Order Book manually');
-  }
-
-  // Recalculate tendering stats
-  updateTenderingStats();
-  // If awarded, stamp the award date + who awarded
-  if (newStage === 'Awarded' && prevStage !== 'Awarded') {
+    var marginPct = valNum > 0 ? Math.round((valNum - cogsNum) / valNum * 100) : 0;
     var now2 = new Date();
     var awarder = (CURRENT_USER && CURRENT_USER.name) || 'HOD';
     var awardDate = now2.getDate()+'/'+(now2.getMonth()+1)+'/'+now2.getFullYear();
+    // Stamp award date on tender row
     if (tds[10]) {
-      tds[10].innerHTML = tds[10].textContent
-        + '<div style="font-size:9.5px;color:var(--green)">Awarded by ' + awarder + ' · ' + awardDate + '</div>';
+      tds[10].innerHTML = now2.toLocaleString('default',{month:'short'})+' '+(now2.getFullYear()%100)
+        + '<div style="font-size:9.5px;color:var(--green)">Awarded by '+awarder+'</div>';
     }
+    // Generate a proj key from tender ID or name
+    var tdrId = tds[0] ? tds[0].textContent.trim() : '';
+    var projKey = tdrId.toLowerCase().replace(/[^a-z0-9]/g,'-');
+
+    // 1. Add to Order Book table
+    addToOrderBook(name, client, valNum, projKey);
+
+    // 2. Add to P&L dropdown
+    addToPLDropdown(name, projKey, valNum, cogsNum, marginPct);
+
+    // 3. Add dashboard project card
+    addDashboardProjectCard(name, valNum, cogsNum, marginPct, pic);
+
+    // 4. Update dashboard tender pipeline mini-list status
+    updateDashTenderPipeline(name, 'Awarded');
+
+    // 5. Sync all numeric totals
+    updateTenderingStats();
+
+  } else if (prevStage === 'Awarded' && newStage !== 'Awarded') {
+    showToast(name + ' removed from Awarded — update Order Book manually');
+    updateTenderingStats();
+  } else {
+    // 4. Always sync dashboard pipeline status
+    updateDashTenderPipeline(name, newStage);
+    updateTenderingStats();
   }
+
   closeEditTender();
   showToast(newStage === 'Awarded' && prevStage !== 'Awarded'
-    ? name + ' awarded ✓ — added to Order Book'
-    : 'Tender updated successfully');
+    ? name + ' awarded ✓ — all screens updated'
+    : 'Tender updated');
 }
 
-function addToOrderBook(name, client, valNum) {
+function addToOrderBook(name, client, valNum, projKey) {
   var tbody = document.querySelector('.rt tbody');
   if (!tbody) return;
-
-  // Check if this project already exists in OB table (avoid duplicates)
-  var existing = null;
+  // Avoid duplicates
+  var dup = false;
   tbody.querySelectorAll('tr:not(.rt-group):not(.rt-total)').forEach(function(r) {
-    var firstTd = r.querySelector('td');
-    if (firstTd && firstTd.textContent.trim().toLowerCase().indexOf(name.toLowerCase().substring(0,8)) !== -1) {
-      existing = r;
-    }
+    var td = r.querySelector('td');
+    if (td && td.textContent.trim().toLowerCase().indexOf(name.toLowerCase().substring(0,8)) !== -1) dup = true;
   });
-  if (existing) {
-    showToast(name + ' already in Order Book');
-    return;
-  }
+  if (dup) { showToast(name + ' already in Order Book'); return; }
 
   var yr = (new Date().getFullYear() % 100);
-  var shortName = name.length > 22 ? name.substring(0,20) + '…' : name;
-
+  var shortName = name.length > 22 ? name.substring(0,20)+'…' : name;
   var tr = document.createElement('tr');
-  tr.setAttribute('data-proj', name.toLowerCase().replace(/[^a-z0-9]/g,'-'));
+  tr.setAttribute('data-proj', projKey);
   var td1 = document.createElement('td'); td1.textContent = shortName;
   var td2 = document.createElement('td');
-  td2.innerHTML = '<span class="pill gold" style="font-size:9px">New ' + yr + '</span>';
-  var td3 = document.createElement('td'); td3.className = 'num-cell';
-  td3.textContent = 'RM ' + valNum.toFixed(1) + 'M';
-  var td4 = document.createElement('td'); td4.className = 'num-cell'; td4.textContent = '—';
-  var td5 = document.createElement('td'); td5.className = 'num-cell'; td5.textContent = '—';
-  var mkEC = function(val) {
-    var td = document.createElement('td');
-    var sp = document.createElement('span');
-    sp.className = 'editable-cell'; sp.contentEditable = 'true'; sp.textContent = val;
-    sp.setAttribute('oninput', 'updateRevChart()');
+  td2.innerHTML = '<span class="pill gold" style="font-size:9px">New '+yr+'</span>';
+  var td3 = document.createElement('td'); td3.className='num-cell';
+  td3.id = 'ob-contract-'+projKey;
+  td3.textContent = 'RM '+valNum.toFixed(1)+'M';
+  var td4 = document.createElement('td'); td4.className='num-cell'; td4.textContent='—';
+  var td5 = document.createElement('td'); td5.className='num-cell'; td5.textContent='—';
+  function mkEC(v) {
+    var td=document.createElement('td');
+    var sp=document.createElement('span');
+    sp.className='editable-cell'; sp.contentEditable='true'; sp.textContent=v;
     sp.addEventListener('input', updateRevChart);
     td.appendChild(sp); return td;
-  };
-  var td6 = mkEC('0');
-  var td7 = mkEC('0');
-  var td8 = mkEC('0');
-  var td9 = document.createElement('td');
-  td9.className = 'num-cell'; td9.style.color = 'var(--green)';
-  td9.textContent = 'RM ' + valNum.toFixed(1) + 'M';
-  [td1,td2,td3,td4,td5,td6,td7,td8,td9].forEach(function(td){ tr.appendChild(td); });
-
-  // Insert after NEW ORDER BOOK header
-  var newOBHeader = null;
-  tbody.querySelectorAll('tr.rt-group').forEach(function(r) {
-    if (r.textContent.indexOf('NEW ORDER BOOK') !== -1) newOBHeader = r;
+  }
+  var td6=mkEC('0'), td7=mkEC('0'), td8=mkEC('0');
+  var td9=document.createElement('td'); td9.className='num-cell';
+  td9.style.color='var(--green)'; td9.textContent='RM '+valNum.toFixed(1)+'M';
+  [td1,td2,td3,td4,td5,td6,td7,td8,td9].forEach(function(td){tr.appendChild(td);});
+  var newOBHdr=null;
+  tbody.querySelectorAll('tr.rt-group').forEach(function(r){
+    if(r.textContent.indexOf('NEW ORDER BOOK')!==-1) newOBHdr=r;
   });
-  if (newOBHeader) tbody.insertBefore(tr, newOBHeader.nextSibling);
-  else tbody.appendChild(tr);
-
-  // Update OB total scheduled
-  var totSched = document.getElementById('tot-sched');
-  if (totSched) {
-    var cur = parseFloat(totSched.textContent.replace(/[^0-9.]/g,'')) || 0;
-    totSched.innerHTML = '<strong>RM ' + (cur + valNum).toFixed(1) + 'M</strong>';
-  }
-  // Update OB metric card
-  var obTotal = document.getElementById('ob-total-val');
-  if (obTotal) {
-    var obCur = parseFloat(obTotal.textContent.replace(/[^0-9.]/g,'')) || 0;
-    obTotal.textContent = 'RM ' + (obCur + valNum).toFixed(1) + 'M';
-  }
-  // Update Dashboard OB card
-  var dashOBEl = document.querySelector('#screen-dashboard .metric-card.green .metric-val.green');
-  if (dashOBEl && dashOBEl.closest('.metric-card') && dashOBEl.textContent.includes('M')) {
-    var dCur = parseFloat(dashOBEl.textContent.replace(/[^0-9.]/g,'')) || 0;
-    dashOBEl.textContent = 'RM ' + (dCur + valNum).toFixed(1) + 'M';
-  }
+  if(newOBHdr) tbody.insertBefore(tr,newOBHdr.nextSibling); else tbody.appendChild(tr);
+  // Update OB scheduled total
+  var totSched=document.getElementById('tot-sched');
+  if(totSched){ var c=parseFloat(totSched.textContent.replace(/[^0-9.]/g,''))||0; totSched.innerHTML='<strong>RM '+(c+valNum).toFixed(1)+'M</strong>'; }
   updateRevChart();
+}
+
+function addToPLDropdown(name, projKey, valNum, cogsNum, marginPct) {
+  // Add to P&L project selector
+  var sel = document.getElementById('pl-project-select');
+  if (sel) {
+    var exists = false;
+    for (var i=0;i<sel.options.length;i++) { if(sel.options[i].value===projKey) { exists=true; break; } }
+    if (!exists) {
+      var opt = document.createElement('option');
+      opt.value = projKey; opt.textContent = name;
+      sel.appendChild(opt);
+    }
+  }
+  // Add entry to PL_PROJECTS and PL_BUDGETS so switching to it works
+  if (!PL_PROJECTS[projKey]) {
+    PL_PROJECTS[projKey] = {
+      contract: valNum, budget: cogsNum, actual: 0,
+      margin: marginPct+'%', vo:'—', billed:0, collected:0,
+      stage:'Entry · Newly awarded',
+      alert:'New award — set up project and submit first progress claim'
+    };
+  }
+  if (!PL_BUDGETS[projKey]) {
+    // Split COGS budget: Material 44%, Labour 24%, Subcon 18%, Prelim 14%
+    var b = cogsNum;
+    PL_BUDGETS[projKey] = {
+      contract: valNum, budgetTotal: cogsNum,
+      budgets: [+(b*0.44).toFixed(2), +(b*0.24).toFixed(2), +(b*0.18).toFixed(2), +(b*0.14).toFixed(2)],
+      actuals: [0,0,0,0]
+    };
+  }
+  // Add billing schedule entry
+  if (!_billingSchedules) _billingSchedules = {};
+  _billingSchedules[projKey] = [
+    {label:'Claim #1 (Inception)',pill:'gray',txt:'Not yet'},
+    {label:'Claim #2 (Interim)',pill:'gray',txt:'Not yet'},
+    {label:'Final Claim (Report acceptance)',pill:'gray',txt:'Not yet'}
+  ];
+}
+
+function addDashboardProjectCard(name, valNum, cogsNum, marginPct, pic) {
+  var container = document.querySelector('#screen-dashboard [style*="grid-template-columns:repeat(5"]');
+  if (!container) return;
+  var card = document.createElement('div');
+  card.className='card';
+  card.style.cssText='padding:0;border-top:3px solid var(--green);margin-bottom:0';
+  var shortName = name.length>20 ? name.substring(0,18)+'…' : name;
+  card.innerHTML=
+    '<div style="padding:11px 12px 8px">'+
+    '<div style="font-size:12px;font-weight:600;margin-bottom:1px">'+shortName+'</div>'+
+    '<div style="font-size:9.5px;color:var(--text3);margin-bottom:5px">Newly awarded · Entry</div>'+
+    '<span class="pill green">✓ On track</span></div>'+
+    '<div style="padding:0 12px 10px;display:flex;flex-direction:column;gap:4px">'+
+    '<div class="proj-card-kv"><span>Contract</span><span style="font-weight:600">RM '+valNum.toFixed(1)+'M</span></div>'+
+    '<div class="proj-card-kv"><span>Budget cost</span><span>RM '+cogsNum.toFixed(2)+'M</span></div>'+
+    '<div class="proj-card-kv"><span>Actual cost</span><span style="color:var(--text3)">Not started</span></div>'+
+    '<div class="proj-card-kv"><span>Margin budget</span><span style="font-weight:600">'+marginPct+'%</span></div>'+
+    '<div class="proj-card-divider"></div>'+
+    '<div class="proj-card-kv" style="margin-bottom:2px"><span>Billed</span><span>0%</span></div>'+
+    '<div class="prog-bar"><div class="prog-fill" style="width:1%;background:var(--border)"></div></div>'+
+    '<div class="proj-card-kv" style="margin-top:3px"><span>PIC</span><span style="color:var(--text2)">'+pic+'</span></div>'+
+    '</div>';
+  container.appendChild(card);
+  // Also update dashboard OB metric card
+  var dashOB = document.querySelector('#screen-dashboard .metric-val.green');
+  if (dashOB) {
+    var cur = parseFloat(dashOB.textContent.replace(/[^0-9.]/g,''))||0;
+    dashOB.textContent = 'RM '+(cur+valNum).toFixed(1)+'M';
+  }
+  // Update dashboard overdue tasks card sub-label
+  var dashOBSub = dashOB ? dashOB.nextElementSibling : null;
+  if (dashOBSub) {
+    var m = dashOBSub.textContent.match(/(\d+)/);
+    if (m) dashOBSub.textContent = (parseInt(m[1])+1)+' active projects';
+  }
+}
+
+function updateDashTenderPipeline(name, newStage) {
+  // Update the dashboard Activity & Pipeline - Tender pipeline mini-list
+  var pipelineCard = document.querySelector('#screen-dashboard .grid-3 .card');
+  if (!pipelineCard) return;
+  var items = pipelineCard.querySelectorAll('[style*="font-size:12px;font-weight:500"]');
+  var pm = {Awarded:'green',Submitted:'blue',Shortlisted:'purple',Negotiation:'gold','Pre-Qual':'gray',Identified:'gray','Not awarded':'red'};
+  items.forEach(function(el) {
+    if (el.textContent.trim().toLowerCase().indexOf(name.toLowerCase().substring(0,8)) !== -1) {
+      // Update the pill next to this item
+      var row = el.closest('[style*="padding:6px 14px"]');
+      if (row) {
+        var pill = row.querySelector('.pill');
+        if (pill) {
+          pill.className = 'pill '+(pm[newStage]||'gray');
+          pill.textContent = newStage;
+        }
+        // If awarded, remove from pipeline list (or mark it)
+        if (newStage === 'Awarded') {
+          row.style.opacity = '0.5';
+          row.style.textDecoration = 'line-through';
+        }
+      }
+    }
+  });
 }
 
 function updateTenderingStats() {
@@ -3392,12 +3483,12 @@ function updateTenderingStats() {
   if (av)  av.textContent  = 'RM ' + awardedTotal.toFixed(1) + 'M';
   if (sub) sub.textContent = awardedCount + ' awarded project' + (awardedCount !== 1 ? 's' : '');
   if (pv)  pv.textContent  = 'RM ' + weightedTotal.toFixed(1) + 'M';
-  // Sync dashboard pipeline card
-  var dashPipeline = document.querySelector('.metric-val.gold');
-  if (dashPipeline && dashPipeline.closest('#screen-dashboard')) {
-    dashPipeline.textContent = 'RM ' + (rawPipelineTotal).toFixed(1) + 'M';
-  }
-  // Sync Order Book total card to match awarded tender total + approved VOs
+  // Sync dashboard pipeline card (raw total of active non-awarded tenders)
+  var dashMetrics = document.querySelectorAll('#screen-dashboard .metric-val.gold');
+  dashMetrics.forEach(function(el) {
+    if (el.closest('#screen-dashboard')) el.textContent = 'RM ' + rawPipelineTotal.toFixed(1) + 'M';
+  });
+  // Sync Order Book total = awarded total + approved VOs
   var totalVO = 0;
   Object.keys(APPROVED_VO_TOTALS || {}).forEach(function(k){ totalVO += APPROVED_VO_TOTALS[k] || 0; });
   var obTotal = document.getElementById('ob-total-val');
@@ -3606,6 +3697,7 @@ function renderTimesheet() {
 // ── P&L project switcher ──────────────────────────────────────────────────────
 // Stores approved VO totals per project (persists across loadPLProject calls)
 var APPROVED_VO_TOTALS = { irbm:0, eia:0, dam:0, flood:0 };
+var _billingSchedules = {};
 
 var PL_PROJECTS = {
   irbm:  { contract:6.80,  budget:5.85,  actual:3.20, margin:'14.7%', vo:'—', billed:50, collected:45, stage:'During · Step 18/35', alert:'Progress Claim #5 due — Step 25 in progress' },
@@ -3728,7 +3820,7 @@ function updateBillingSchedule(proj) {
       {label:'All claims on hold — Step 9 approval',pill:'red',txt:'Blocked',bold:true}
     ]
   };
-  var items = schedules[proj] || schedules.irbm;
+  var items = schedules[proj] || (_billingSchedules && _billingSchedules[proj]) || schedules.irbm;
   var el = document.getElementById('plm-billing-schedule');
   if (!el) return;
   el.innerHTML = items.map(function(s,i) {
