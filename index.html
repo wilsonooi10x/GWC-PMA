@@ -3716,7 +3716,7 @@ function updateBillingSchedule(proj) {
       {label:'All claims on hold — Step 9 approval',pill:'red',txt:'Blocked',bold:true}
     ]
   };
-  var items = schedules[proj] || schedules.sunway;
+  var items = schedules[proj] || schedules.irbm;
   var el = document.getElementById('plm-billing-schedule');
   if (!el) return;
   el.innerHTML = items.map(function(s,i) {
@@ -3734,7 +3734,7 @@ function updatePLBilling() {
   var v = parseInt(inp.value) || 0;
   var sel = document.getElementById('pl-project-select');
   var projKey = sel ? sel.value : 'irbm';
-  var projData = PL_PROJECTS[projKey] || PL_PROJECTS.sunway;
+  var projData = PL_PROJECTS[projKey] || PL_PROJECTS.irbm;
   // Use VO-adjusted contract as base for billing calculation
   var voAdj = (APPROVED_VO_TOTALS && APPROVED_VO_TOTALS[projKey]) || 0;
   var contract = projData.contract + voAdj;
