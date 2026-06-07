@@ -427,7 +427,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
     <div class="metric-grid" style="grid-template-columns:repeat(5,minmax(160px,1fr))">
       <div class="metric-card green"><div class="metric-label"><i class="ti ti-chart-bar"></i>Revenue YTD</div><div class="metric-val green">RM 10.2M</div><div class="metric-sub">60% of RM 17.0M target</div></div>
       <div class="metric-card green"><div class="metric-label"><i class="ti ti-book"></i>Order book</div><div class="metric-val green">RM 41.2M</div><div class="metric-sub">5 active projects</div></div>
-      <div class="metric-card gold"><div class="metric-label"><i class="ti ti-git-pull-request"></i>Tender pipeline</div><div class="metric-val gold">RM 38.6M</div><div class="metric-sub">7 tenders · win rate 43%</div></div>
+      <div class="metric-card gold"><div class="metric-label"><i class="ti ti-git-pull-request"></i>Tender pipeline</div><div class="metric-val gold">RM 35.5M</div><div class="metric-sub">6 active tenders · RM 19.6M weighted</div></div>
       <div class="metric-card amber"><div class="metric-label"><i class="ti ti-clock-dollar"></i>Billed to date</div><div class="metric-val amber">RM 8.6M</div><div class="metric-sub">Avg 18% gross margin</div></div>
       <div class="metric-card amber"><div class="metric-label"><i class="ti ti-alert-triangle"></i>Overdue tasks</div><div class="metric-val amber">12</div><div class="metric-sub">Across 3 projects</div></div>
     </div>
@@ -3370,7 +3370,7 @@ function addToOrderBook(name, client, valNum) {
 
 function updateTenderingStats() {
   var rows = document.querySelectorAll('#tender-tbody tr');
-  var awardedTotal = 0, awardedCount = 0, weightedTotal = 0;
+  var awardedTotal = 0, awardedCount = 0, weightedTotal = 0, rawPipelineTotal = 0;
   rows.forEach(function(row) {
     var pill = row.querySelector('.pill');
     if (!pill) return;
@@ -3382,6 +3382,7 @@ function updateTenderingStats() {
       awardedTotal += val;
       awardedCount++;
     } else if (stage !== 'Not awarded' && stage !== 'Lost' && stage !== 'No Bid') {
+      rawPipelineTotal += val;
       weightedTotal += val * prob / 100;
     }
   });
@@ -3391,6 +3392,11 @@ function updateTenderingStats() {
   if (av)  av.textContent  = 'RM ' + awardedTotal.toFixed(1) + 'M';
   if (sub) sub.textContent = awardedCount + ' awarded project' + (awardedCount !== 1 ? 's' : '');
   if (pv)  pv.textContent  = 'RM ' + weightedTotal.toFixed(1) + 'M';
+  // Sync dashboard pipeline card
+  var dashPipeline = document.querySelector('.metric-val.gold');
+  if (dashPipeline && dashPipeline.closest('#screen-dashboard')) {
+    dashPipeline.textContent = 'RM ' + (rawPipelineTotal).toFixed(1) + 'M';
+  }
   // Sync Order Book total card to match awarded tender total + approved VOs
   var totalVO = 0;
   Object.keys(APPROVED_VO_TOTALS || {}).forEach(function(k){ totalVO += APPROVED_VO_TOTALS[k] || 0; });
