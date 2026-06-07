@@ -575,18 +575,18 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
       <button class="btn btn-primary" onclick="openTenderModal()"><i class="ti ti-plus"></i>New tender</button>
     </div>
     <div class="stat-band">
-      <div class="stat-cell"><div class="stat-cell-label">Awarded OB</div><div class="stat-cell-val" id="tend-awarded-val">RM 19.3M</div><div class="stat-cell-sub" id="tend-awarded-sub">3 awarded projects</div></div>
+      <div class="stat-cell"><div class="stat-cell-label">Awarded OB</div><div class="stat-cell-val" id="tend-awarded-val">RM 41.2M</div><div class="stat-cell-sub" id="tend-awarded-sub">5 awarded projects</div></div>
       <div class="stat-cell"><div class="stat-cell-label">Weighted pipeline</div><div class="stat-cell-val gold" id="tend-pipeline-val">RM 19.6M</div><div class="stat-cell-sub">Probability-adjusted</div></div>
-      <div class="stat-cell"><div class="stat-cell-label">Total tenders</div><div class="stat-cell-val">11</div><div class="stat-cell-sub">All stages · win rate 43%</div></div>
+      <div class="stat-cell"><div class="stat-cell-label">Total tenders</div><div class="stat-cell-val">13</div><div class="stat-cell-sub">All stages · win rate 38%</div></div>
     </div>
     <div class="funnel-row">
-      <div class="funnel-pill active" onclick="filterTenders('all',this)">All (11)</div>
+      <div class="funnel-pill active" onclick="filterTenders('all',this)">All (13)</div>
       <div class="funnel-pill" onclick="filterTenders('Identified',this)">Identified (1)</div>
       <div class="funnel-pill" onclick="filterTenders('Pre-Qual',this)">Pre-Qual (1)</div>
       <div class="funnel-pill" onclick="filterTenders('Submitted',this)">Submitted (2)</div>
       <div class="funnel-pill" onclick="filterTenders('Shortlisted',this)">Shortlisted (1)</div>
       <div class="funnel-pill" onclick="filterTenders('Negotiation',this)">Negotiation (1)</div>
-      <div class="funnel-pill" onclick="filterTenders('Awarded',this)">Awarded (3)</div>
+      <div class="funnel-pill" onclick="filterTenders('Awarded',this)">Awarded (5)</div>
       <div class="funnel-pill" onclick="filterTenders('Not awarded',this)">Not awarded (2)</div>
     </div>
     <div class="card" style="overflow:hidden">
@@ -597,6 +597,8 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
             <tr data-stage="Awarded"><td class="num">TDR-001</td><td style="font-weight:500">IRBM Studies</td><td>Dept of Irrigation & Drainage</td><td>Razif</td><td><span class="pill green">Awarded</span></td><td class="num">RM 6.8M</td><td class="num">RM 5.85M</td><td class="num pos">14%</td><td class="num">100%</td><td class="num pos">RM 6.8M</td><td style="font-size:11px">Jan 26</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-001')">Edit</button></td></tr>
             <tr data-stage="Awarded"><td class="num">TDR-002</td><td style="font-weight:500">EIA Study - CHS</td><td>JPS Malaysia</td><td>Nurul</td><td><span class="pill green">Awarded</span></td><td class="num">RM 4.1M</td><td class="num">RM 3.36M</td><td class="num pos">18%</td><td class="num">100%</td><td class="num pos">RM 4.1M</td><td style="font-size:11px">Sep 25</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-002')">Edit</button></td></tr>
             <tr data-stage="Awarded"><td class="num">TDR-003</td><td style="font-weight:500">Dam Safety Review / DSI</td><td>JKR Malaysia</td><td>Razif</td><td><span class="pill green">Awarded</span></td><td class="num">RM 8.4M</td><td class="num">RM 6.80M</td><td class="num pos">19%</td><td class="num">100%</td><td class="num pos">RM 8.4M</td><td style="font-size:11px">Mar 25</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-003')">Edit</button></td></tr>
+            <tr data-stage="Awarded"><td class="num">TDR-012</td><td style="font-weight:500">Flood Mitigation Masterplan</td><td>JPS Malaysia</td><td>Farouk</td><td><span class="pill green">Awarded</span></td><td class="num">RM 18.5M</td><td class="num">RM 15.54M</td><td class="num pos">16%</td><td class="num">100%</td><td class="num pos">RM 18.5M</td><td style="font-size:11px">Jan 26</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-012')">Edit</button></td></tr>
+            <tr data-stage="Awarded"><td class="num">TDR-013</td><td style="font-weight:500">Water Resources Study</td><td>NRE Ministry</td><td>Nurul</td><td><span class="pill green">Awarded</span></td><td class="num">RM 3.4M</td><td class="num">RM 2.89M</td><td class="num pos">15%</td><td class="num">100%</td><td class="num pos">RM 3.4M</td><td style="font-size:11px">Feb 26</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-013')">Edit</button></td></tr>
             <tr data-stage="Submitted"><td class="num">TDR-004</td><td style="font-weight:500">Klang River Flood Alleviation</td><td>DID Malaysia</td><td>Farouk</td><td><span class="pill blue">Submitted</span></td><td class="num">RM 8.5M</td><td class="num">RM 7.14M</td><td class="num pos">16%</td><td class="num">65%</td><td class="num" style="color:var(--amber)">RM 5.5M</td><td style="font-size:11px">—</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-004')">Edit</button></td></tr>
             <tr data-stage="Submitted"><td class="num">TDR-005</td><td style="font-weight:500">Selangor Water Demand Study</td><td>Air Selangor</td><td>Lim Wei</td><td><span class="pill blue">Submitted</span></td><td class="num">RM 2.4M</td><td class="num">RM 2.02M</td><td class="num pos">16%</td><td class="num">80%</td><td class="num" style="color:var(--amber)">RM 1.9M</td><td style="font-size:11px">—</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-005')">Edit</button></td></tr>
             <tr data-stage="Negotiation"><td class="num">TDR-006</td><td style="font-weight:500">Langat River Basin Management</td><td>JPS Selangor</td><td>Razif</td><td><span class="pill gold">Negotiation</span></td><td class="num">RM 4.8M</td><td class="num">RM 3.94M</td><td class="num pos">18%</td><td class="num">70%</td><td class="num" style="color:var(--amber)">RM 3.4M</td><td style="font-size:11px">—</td><td><button class="btn btn-secondary btn-sm" onclick="editTender(this,'TDR-006')">Edit</button></td></tr>
@@ -617,7 +619,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
       <div><div class="page-title">Order book &amp; revenue realisation</div><div class="page-sub">2026 target: <strong>RM 12.1M</strong> · Old OB + New OB</div></div>
     </div>
     <div class="metric-grid">
-      <div class="metric-card green"><div class="metric-label"><i class="ti ti-book"></i>Total order book</div><div class="metric-val green" id="ob-total-val">RM 24.8M</div><div class="metric-sub">4 active projects</div></div>
+      <div class="metric-card green"><div class="metric-label"><i class="ti ti-book"></i>Total order book</div><div class="metric-val green" id="ob-total-val">RM 41.2M</div><div class="metric-sub">5 active projects</div></div>
       <div class="metric-card"><div class="metric-label"><i class="ti ti-receipt"></i>Billed to date</div><div class="metric-val">RM 14.4M</div><div class="metric-sub">35% of total OB</div></div>
       <div class="metric-card amber"><div class="metric-label"><i class="ti ti-clock"></i>Outstanding</div><div class="metric-val amber">RM 26.8M</div><div class="metric-sub">Remaining to bill</div></div>
       <div class="metric-card"><div class="metric-label"><i class="ti ti-lock"></i>Retention held</div><div class="metric-val">RM 1.84M</div><div class="metric-sub">Avg 10% retention</div></div>
@@ -3380,7 +3382,6 @@ function updateTenderingStats() {
       awardedTotal += val;
       awardedCount++;
     } else if (stage !== 'Not awarded' && stage !== 'Lost' && stage !== 'No Bid') {
-      // Pipeline = active non-awarded tenders, probability-weighted
       weightedTotal += val * prob / 100;
     }
   });
@@ -3390,6 +3391,11 @@ function updateTenderingStats() {
   if (av)  av.textContent  = 'RM ' + awardedTotal.toFixed(1) + 'M';
   if (sub) sub.textContent = awardedCount + ' awarded project' + (awardedCount !== 1 ? 's' : '');
   if (pv)  pv.textContent  = 'RM ' + weightedTotal.toFixed(1) + 'M';
+  // Sync Order Book total card to match awarded tender total + approved VOs
+  var totalVO = 0;
+  Object.keys(APPROVED_VO_TOTALS || {}).forEach(function(k){ totalVO += APPROVED_VO_TOTALS[k] || 0; });
+  var obTotal = document.getElementById('ob-total-val');
+  if (obTotal) obTotal.textContent = 'RM ' + (awardedTotal + totalVO).toFixed(1) + 'M';
 }
 
 
