@@ -1805,8 +1805,7 @@ input[type=week]:focus{border-color:var(--mg);box-shadow:0 0 0 3px rgba(2,2,114,
   </div>
 
   <!-- ── LOG HOURS VIEW ──────────────────────────────── -->
-  <div id="ts-view-log" style="display:none">
-    <div class="notice amber" id="ts-notice"><i class="ti ti-alert-circle"></i>Log your hours for each project daily. Hours auto-calculate labour cost at your grade rate.</div>
+  <div id="ts-view-log" style="display:none"><i class="ti ti-alert-circle"></i>Log your hours for each project daily. Hours auto-calculate labour cost at your grade rate.</div>
 
     <!-- Timesheet grid -->
     <div class="card">
@@ -2168,6 +2167,10 @@ function nav(id, el) {
   if (id === 'pl') {
     var plSel = document.getElementById('pl-project-select');
     loadPLProject(plSel ? plSel.value : 'irbm');
+  }
+  // Always show dashboard view when opening timesheet
+  if (id === 'timesheet') {
+    setTimeout(function(){ switchTsView('dashboard'); }, 0);
   }
 }
 function demoSwitchRole(role, btn) {
